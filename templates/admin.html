@@ -10,9 +10,29 @@
 	</div>
 
 	<div class="bodies">
-		<div class="body body1" id="body1">profile</div>
-		<div class="body body2" id="body2">theme</div>
-		<div class="body body3" id="body3">notepad</div>
+		<div class="body body1" id="body1">
+			<form class="profile" action="/profile_request" method="POST">
+				<input type="text" name="firstname" placeholder="firstname">
+				<input type="text" name="lastname" placeholder="lastname">
+				<button type="submit" class="submit">Send</button>
+			</form>
+		</div>
+
+		<div class="body body2" id="body2">
+			<form class="theme">
+				<select name="background[]">
+					<option selected value="white">Белый</option>
+					<option value="black">Чёрный</option>
+					<option value="blue">Синий</option>
+				</select>
+			</form>
+		</div>
+
+		<div class="body body3" id="body3">
+			<form class="notepad">
+				<textarea class="textarea"></textarea>
+			</form>
+		</div>
 	</div>
 </div>
 
