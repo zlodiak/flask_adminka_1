@@ -2,4 +2,91 @@
 
 <title>Admin</title>
 
-adminn
+<div class="wrap">
+	<div class="tabs">
+		<span class="tab tab1" id="tab1">profile</span>	
+		<span class="tab tab2" id="tab2">theme</span>	
+		<span class="tab tab3" id="tab3">notepad</span>	
+	</div>
+
+	<div class="bodies">
+		<div class="body body1" id="body1">profile</div>
+		<div class="body body2" id="body2">theme</div>
+		<div class="body body3" id="body3">notepad</div>
+	</div>
+</div>
+
+<style type="text/css">
+	.tab {
+		margin: 20px;
+		padding: 10px;
+		background: yellow;
+	}
+
+		.tab.active {
+			background: red;
+		}
+
+	.body {
+		margin: 20px;
+		padding: 10px;
+		background: cyan;
+		min-height: 200px;
+	}
+</style>
+
+<script type="text/javascript">
+	const tab1Elem = document.getElementById('tab1');
+	const tab2Elem = document.getElementById('tab2');
+	const tab3Elem = document.getElementById('tab3');
+
+	const body1Elem = document.getElementById('body1');
+	const body2Elem = document.getElementById('body2');
+	const body3Elem = document.getElementById('body3');
+
+	hideAllBodies();
+	showBody(body1Elem);
+	unactiveAllTabs();
+	activeTab(tab1Elem);
+
+	tab1Elem.addEventListener('click', () => {
+		hideAllBodies();
+		showBody(body1Elem);
+		unactiveAllTabs();
+		activeTab(tab1Elem);
+	});
+
+	tab2Elem.addEventListener('click', () => {
+		hideAllBodies();
+		showBody(body2Elem);
+		unactiveAllTabs();
+		activeTab(tab2Elem);
+	});
+
+	tab3Elem.addEventListener('click', () => {
+		hideAllBodies();
+		showBody(body3Elem);
+		unactiveAllTabs();
+		activeTab(tab3Elem);
+	});
+
+	function hideAllBodies() {
+		[body1Elem, body2Elem, body3Elem].forEach((elem) => {
+			elem.style.display = 'none';
+		});
+	}
+
+	function showBody(bodyElem) {
+		bodyElem.style.display = 'block';
+	}
+
+	function unactiveAllTabs() {
+		[tab1Elem, tab2Elem, tab3Elem].forEach((elem) => {
+			elem.classList.remove("active");
+		});
+	}
+
+	function activeTab(tabElem) {
+		tabElem.classList.add("active");
+	}
+</script>
