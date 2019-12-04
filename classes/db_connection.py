@@ -9,7 +9,7 @@ class DB_connection:
             host='localhost'
         )
         self.connection.autocommit = True
-        return self.connection.cursor()
+        return self.connection
     
     def __exit__(self, exc_type, exc_val, exc_tb):
         if hasattr(self, 'connection'):

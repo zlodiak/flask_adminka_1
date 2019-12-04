@@ -10,12 +10,15 @@
 	</div>
 
 	<div class="bodies">
-		<div class="body body1" id="body1">
-			<form class="profile" action="/profile_request" method="POST">
-				<input type="text" name="firstname" placeholder="firstname">
-				<input type="text" name="lastname" placeholder="lastname">
-				<button type="submit" class="submit">Send</button>
-			</form>
+		<div class="body body1" id="body1">{{ test }}
+			<div class="profile" method="POST">
+				<input type="text" name="firstname" placeholder="firstname" id="firstname" value="{{ test }}">
+				<input type="text" name="lastname" placeholder="lastname" id="lastname">
+				<button type="submit" class="submit" id="profileSubmitBtn">Send</button>
+			</div>
+			<div class="msg error" id="errorMsg">Operation is failed</div>
+			<div class="msg success" id="successMsg">Operation is successfully</div>
+			<div class="msg validation" id="validationMsg">Fill all fields</div>
 		</div>
 
 		<div class="body body2" id="body2">
@@ -108,5 +111,54 @@
 
 	function activeTab(tabElem) {
 		tabElem.classList.add("active");
+	}
+</script>
+
+<script type="text/javascript">
+	const profileSubmitBtnElem = document.getElementById('profileSubmitBtn');
+	const errorMsgElem = document.getElementById('errorMsg');
+	const successMsgElem = document.getElementById('successMsg');
+	const validationMsgElem = document.getElementById('validationMsg');
+
+	setMsgVisibility('none', 'none', 'none');
+
+	if(profileSubmitBtnElem) {
+		profileSubmitBtnElem.addEventListener('click', profileSubmit);
+	}
+
+	function profileSubmit() {
+		const firstname = document.getElementById('firstname').value;
+		const lastname = document.getElementById('lastname').value;
+
+
+		if (!firstname || !lastname) {
+			setMsgVisibility('none', 'none', 'block');
+			setTimeout(() => {
+				setMsgVisibility('none', 'none', 'none');
+			}, 2000);
+			return;
+		}
+
+		const xhr = new XMLHttpRequest();
+		xhr.open("POST", "submit_profile_request", true);
+		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhr.onreadystatechange = function() {
+		  if(xhr.status === 200 && this.responseText === 'submit profile is complete') {
+		  	setMsgVisibility('block', 'none');
+		  } else {
+		  	setMsgVisibility('none', 'block');
+		  }
+
+		  setTimeout(() => {
+		  	setMsgVisibility('none', 'none');
+		  }, 2000);
+		}
+		xhr.send(`firstname=${firstname}&lastname=${lastname}`);
+	}
+
+	function setMsgVisibility(success, error, validation) {
+	  	successMsgElem.style.display = success;
+	  	errorMsgElem.style.display = error;
+	  	validationMsg.style.display = validation;
 	}
 </script>

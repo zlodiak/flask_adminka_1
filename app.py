@@ -17,11 +17,15 @@ def admin():
     if 'flask_adminka_authorized_user_id' not in request.cookies:
         return redirect('/', code=404)
 
-    return render_template('admin.html')
+    test = 'qwe'
+
+    return render_template('admin.html', test=test)
 
 @app.route('/auth_request', methods=['POST'])
 def auth_request():
-    with DB_connection() as db_cursor:
+    with DB_connection() as db_connect:
+        db_cursor = db_connect.cursor()
+
         pasword = request.values.get('password')
         password_hash = hashlib.sha1(pasword.encode('ASCII')).hexdigest()
         email = request.values.get('email')
@@ -37,9 +41,11 @@ def auth_request():
             resp = Response('not authorized')
             return resp
 
-@app.route('/profile_request', methods=['POST'])
-def profile_request():
-    with DB_connection() as db_cursor:
+@app.route('/submit_profile_request', methods=['POST'])
+def submit_profile_request():
+    with DB_connection() as db_connect:
+        db_cursor = db_connect.cursor()
+
         firstname = request.values.get('firstname')
         lastname = request.values.get('lastname')
         id_auth_user = request.cookies.get('flask_adminka_authorized_user_id')
@@ -49,11 +55,15 @@ def profile_request():
         record = db_cursor.fetchone() 
 
         if record:
-            req = "UPDATE options SET firstname='" + firstname + "', lastname='" + lastname + "' WHERE user_id=" + str(id_auth_user)
-            db_cursor.execute(req);
-            db_conn.commit()
-
-        return 'profile_request' + lastname + firstname
+            try: 
+                req = "UPDATE options SET firstname='" + firstname + "', lastname='" + lastname + "' WHERE user_id=" + str(id_auth_user)
+                db_cursor.execute(req);
+                db_connect.commit()
+                resp = Response('submit profile is complete')
+                return resp
+            except:
+                resp = Response('failed')
+                return resp
 
 if __name__ == '__main__':
     app.run()
