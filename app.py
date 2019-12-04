@@ -13,13 +13,32 @@ def auth():
     return render_template('auth.html')
 
 @app.route('/admin')
-def admin():
+def admin():    
     if 'flask_adminka_authorized_user_id' not in request.cookies:
         return redirect('/', code=404)
 
-    test = 'qwe'
+    admin_forms_values = {
+        'firstname': None,
+        'lastname': None,
+    }
 
-    return render_template('admin.html', test=test)
+    with DB_connection() as db_connect:
+        db_cursor = db_connect.cursor()
+
+        id_auth_user = request.cookies.get('flask_adminka_authorized_user_id')
+        req = "select * from options where user_id='" + id_auth_user + "'"
+
+        try:
+            db_cursor.execute(req)
+            record = db_cursor.fetchone()
+            admin_forms_values['firstname'] = record[1]
+            admin_forms_values['lastname'] = record[2]
+            print('log: successfull retrieve admin_forms_values', admin_forms_values)
+        except:
+            print('log: failed retrieve admin_forms_values', admin_forms_values)
+        
+        return render_template('admin.html', admin_forms_values=admin_forms_values)
+
 
 @app.route('/auth_request', methods=['POST'])
 def auth_request():
@@ -40,6 +59,7 @@ def auth_request():
         except:
             resp = Response('not authorized')
             return resp
+
 
 @app.route('/submit_profile_request', methods=['POST'])
 def submit_profile_request():

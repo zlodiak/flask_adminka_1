@@ -12,8 +12,8 @@
 	<div class="bodies">
 		<div class="body body1" id="body1">{{ test }}
 			<div class="profile" method="POST">
-				<input type="text" name="firstname" placeholder="firstname" id="firstname" value="{{ test }}">
-				<input type="text" name="lastname" placeholder="lastname" id="lastname">
+				<input type="text" name="firstname" placeholder="firstname" id="firstname" value="{{ admin_forms_values['firstname'] }}">
+				<input type="text" name="lastname" placeholder="lastname" id="lastname" value="{{ admin_forms_values['lastname'] }}">
 				<button type="submit" class="submit" id="profileSubmitBtn">Send</button>
 			</div>
 			<div class="msg error" id="errorMsg">Operation is failed</div>
