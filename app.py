@@ -19,7 +19,6 @@ def admin():
     if 'flask_adminka_authorized_user_id' not in request.cookies:
         return redirect('/', code=404)
 
-    background_values = {}
     admin_forms_values = {
         'firstname': None,
         'lastname': None,
@@ -37,11 +36,11 @@ def admin():
             admin_forms_values['firstname'] = record[1]
             admin_forms_values['lastname'] = record[2]
             admin_forms_values['notepad'] = record[3]
-            print('log: successfull retrieve admin_forms_values', admin_forms_values, background_values)
+            print('log: successfull retrieve admin_forms_values', admin_forms_values)
         except:
-            print('log: failed retrieve admin_forms_values', admin_forms_values, background_values)
+            print('log: failed retrieve admin_forms_values', admin_forms_values)
         
-        return render_template('admin.html', admin_forms_values=admin_forms_values, background_values=background_values)
+        return render_template('admin.html', admin_forms_values=admin_forms_values)
 
 
 @app.route('/auth_request', methods=['POST'])
