@@ -10,31 +10,29 @@
 	</div>
 
 	<div class="bodies">
-		<div class="body body1" id="body1">{{ test }}
+		<div class="body body1" id="body1">
 			<div class="profile" method="POST">
 				<input type="text" name="firstname" placeholder="firstname" id="firstname" value="{{ admin_forms_values['firstname'] }}">
 				<input type="text" name="lastname" placeholder="lastname" id="lastname" value="{{ admin_forms_values['lastname'] }}">
 				<button type="submit" class="submit" id="profileSubmitBtn">Send</button>
 			</div>
-			<div class="msg error" id="errorMsg">Operation is failed</div>
-			<div class="msg success" id="successMsg">Operation is successfully</div>
-			<div class="msg validation" id="validationMsg">Fill all fields</div>
+			<div class="msg error" id="errorProfileMsg">Operation is failed</div>
+			<div class="msg success" id="successProfileMsg">Operation is successfully</div>
+			<div class="msg validation" id="validationProfileMsg">Fill all fields</div>
 		</div>
 
 		<div class="body body2" id="body2">
-			<form class="theme">
-				<select name="background[]">
-					<option selected value="white">Белый</option>
-					<option value="black">Чёрный</option>
-					<option value="blue">Синий</option>
-				</select>
-			</form>
+            under construction
 		</div>
 
 		<div class="body body3" id="body3">
-			<form class="notepad">
-				<textarea class="textarea"></textarea>
-			</form>
+			<div class="notepad" method="POST">
+				<textarea class="notepad" id="notepad">{{ admin_forms_values['notepad'] }}</textarea>
+                <button type="submit" class="submit" id="notepadSubmitBtn">Send</button>
+			</div>
+            <div class="msg error" id="errorNotepadeMsg">Operation is failed</div>
+            <div class="msg success" id="successNotepadMsg">Operation is successfully</div>
+            <div class="msg validation" id="validationNotepadMsg">Fill textarea</div>
 		</div>
 	</div>
 </div>
@@ -116,11 +114,11 @@
 
 <script type="text/javascript">
 	const profileSubmitBtnElem = document.getElementById('profileSubmitBtn');
-	const errorMsgElem = document.getElementById('errorMsg');
-	const successMsgElem = document.getElementById('successMsg');
-	const validationMsgElem = document.getElementById('validationMsg');
+	const errorProfileMsgElem = document.getElementById('errorProfileMsg');
+	const successProfileMsgElem = document.getElementById('successProfileMsg');
+	const validationProfileMsgElem = document.getElementById('validationProfileMsg');
 
-	setMsgVisibility('none', 'none', 'none');
+	setProfileMsgVisibility('none', 'none', 'none');
 
 	if(profileSubmitBtnElem) {
 		profileSubmitBtnElem.addEventListener('click', profileSubmit);
@@ -132,9 +130,9 @@
 
 
 		if (!firstname || !lastname) {
-			setMsgVisibility('none', 'none', 'block');
+			setProfileMsgVisibility('none', 'none', 'block');
 			setTimeout(() => {
-				setMsgVisibility('none', 'none', 'none');
+				setProfileMsgVisibility('none', 'none', 'none');
 			}, 2000);
 			return;
 		}
@@ -144,21 +142,70 @@
 		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhr.onreadystatechange = function() {
 		  if(xhr.status === 200 && this.responseText === 'submit profile is complete') {
-		  	setMsgVisibility('block', 'none');
+		  	setProfileMsgVisibility('block', 'none');
 		  } else {
-		  	setMsgVisibility('none', 'block');
+		  	setProfileMsgVisibility('none', 'block');
 		  }
 
 		  setTimeout(() => {
-		  	setMsgVisibility('none', 'none');
+		  	setProfileMsgVisibility('none', 'none');
 		  }, 2000);
 		}
 		xhr.send(`firstname=${firstname}&lastname=${lastname}`);
 	}
 
-	function setMsgVisibility(success, error, validation) {
-	  	successMsgElem.style.display = success;
-	  	errorMsgElem.style.display = error;
-	  	validationMsg.style.display = validation;
+	function setProfileMsgVisibility(success, error, validation) {
+	  	successProfileMsgElem.style.display = success;
+	  	errorProfileMsgElem.style.display = error;
+	  	validationProfileMsgElem.style.display = validation;
 	}
+</script>
+
+<script type="text/javascript">
+    const notepadSubmitBtnElem = document.getElementById('notepadSubmitBtn');
+    const errorNotepadMsgElem = document.getElementById('errorNotepadeMsg');
+    const successNotepadMsgElem = document.getElementById('successNotepadMsg');
+    const validationNotepadMsgElem = document.getElementById('validationNotepadMsg');
+
+    setNotepadMsgVisibility('none', 'none', 'none');
+
+    if(notepadSubmitBtnElem) {
+        notepadSubmitBtnElem.addEventListener('click', notepadSubmit);
+    }
+
+    function notepadSubmit() {
+        const notepad = document.getElementById('notepad').value;
+        console.log(notepad)
+
+
+        if (!notepad) {
+            setNotepadMsgVisibility('none', 'none', 'block');
+            setTimeout(() => {
+                setNotepadMsgVisibility('none', 'none', 'none');
+            }, 2000);
+            return;
+        }
+
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "submit_notepad_request", true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function() {
+          if(xhr.status === 200 && this.responseText === 'submit notepad is complete') {
+            setNotepadMsgVisibility('block', 'none');
+          } else {
+            setNotepadMsgVisibility('none', 'block');
+          }
+
+          setTimeout(() => {
+            setNotepadMsgVisibility('none', 'none');
+          }, 2000);
+        }
+        xhr.send(`notepad=${notepad}`);
+    }
+
+    function setNotepadMsgVisibility(success, error, validation) {
+        successNotepadMsgElem.style.display = success;
+        errorNotepadMsgElem.style.display = error;
+        validationNotepadMsgElem.style.display = validation;
+    }
 </script>
