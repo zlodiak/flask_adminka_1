@@ -1,21 +1,23 @@
+```
 project name: flask_adminka
 DB name: flask_adminka
 DB admin login: flask_admin
 DB admin password: flask_admin
+```
 
 table 'users' contains auth data
-
+```
 users(email/password):
 flask_admin1@ad.ad/flask_admin1
 flask_admin2@ad.ad/flask_admin2
 flask_admin3@ad.ad/flask_admin3
-
+```
 
 процедура регистрации не существует. поэтому изначально существуют 3 пользователя с определёнными паролями(таблица users). для каждого пользователя в таблице options существует соответствующая запись, в которой хранятся настройки админки.
 
 ниже sql-код для создания таблиц. бекапы этих таблиц есть в текущем каталоге.
 
-
+```
 CREATE TABLE public.users
 (
   id integer NOT NULL,
@@ -29,9 +31,9 @@ WITH (
 );
 ALTER TABLE public.users
   OWNER TO flask_admin;
+```
 
-
-
+```
 CREATE TABLE public.options
 (
   id integer NOT NULL,
@@ -50,7 +52,7 @@ WITH (
 ALTER TABLE public.options
   OWNER TO flask_admin;
 
-
+```
 
 
 
